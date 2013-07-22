@@ -277,7 +277,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       if (item.access && item.access.description) {
         if (item.access.description == "Public") {
           int_audience = SA_PUBLIC;
-        } else if (item.access.description == "Limited") {
+        } else if (item.access.description == "Limited" || item.access.description == "Shared privately") {
           int_audience = SA_LIMITED;
         } else {
           int_audience = SA_COMMUNITY;
