@@ -6,7 +6,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     S_VARS = 12,
     S_POSTS = 0, S_LOC = 1, S_PHOTOS = 2, S_GIFS = 3, S_VIDEOS = 4, S_LINKS = 5, S_COMMENTS = 6, S_CPP = 7, S_PLUSONES = 8, S_PPP = 9, S_RESHARES = 10, S_RPP = 11,
     ST_TOTAL = 0, ST_ORIGINAL = 1, ST_RESHARED = 2,
-    SA_TOTAL = 0, SA_PUBLIC = 1, SA_EXTENDED = 2, SA_CIRCLES = 3, SA_LIMITED = 4, SA_COMMUNITY = 5,
+    SA_TOTAL = 0, SA_PUBLIC = 1, SA_PUBLIC_COMMUNITY = 2, SA_PRIVATE = 3, SA_PRIVATE_COMMUNITY = 4,
     P_RESHARED = 0, P_RESHARES = 1, P_COMMENTS = 2, P_PLUSONES = 3,
     total_stats, hour_stats, day_stats, daily_stats, min_date, max_date,
     max_comments, max_comments_post, max_reshares, max_reshares_post, max_plusones, max_plusones_post,
@@ -74,132 +74,132 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     var name1, name2;
     if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
       return (b.count[P_RESHARED] - a.count[P_RESHARED]);
-    } else if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
-      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
-    } else if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
-      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
-    } else if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
-      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
-    } else {
-      if (a.name) {
-        name1 = a.name.toUpperCase();
-      } else {
-        name1 = "";
-      }
-      if (b.name) {
-        name2 = b.name.toUpperCase();
-      } else {
-        name2 = "";
-      }
-      if (name1 == name2) {
-        return 0;
-      } else {
-        if (name1 < name2) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
     }
+    if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
+      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
+    }
+    if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
+      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
+    }
+    if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
+      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
+    }
+    if (a.name) {
+      name1 = a.name.toUpperCase();
+    } else {
+      name1 = "";
+    }
+    if (b.name) {
+      name2 = b.name.toUpperCase();
+    } else {
+      name2 = "";
+    }
+    if (name1 == name2) {
+      return 0;
+    }
+    if (name1 < name2) {
+      return -1;
+    }
+    return 1;
   };
 
   sort_function[P_COMMENTS] = function (a, b) {
     var name1, name2;
     if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
       return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
-    } else if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
-      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
-    } else if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
-      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
-    } else if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
-      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
-    } else {
-      if (a.name) {
-        name1 = a.name.toUpperCase();
-      } else {
-        name1 = "";
-      }
-      if (b.name) {
-        name2 = b.name.toUpperCase();
-      } else {
-        name2 = "";
-      }
-      if (name1 == name2) {
-        return 0;
-      } else {
-        if (name1 < name2) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
     }
+    if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
+      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
+    }
+    if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
+      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
+    }
+    if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
+      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
+    }
+    if (a.name) {
+      name1 = a.name.toUpperCase();
+    } else {
+      name1 = "";
+    }
+    if (b.name) {
+      name2 = b.name.toUpperCase();
+    } else {
+      name2 = "";
+    }
+    if (name1 == name2) {
+      return 0;
+    }
+    if (name1 < name2) {
+      return -1;
+    }
+    return 1;
   };
 
   sort_function[P_RESHARES] = function (a, b) {
     var name1, name2;
     if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
       return (b.count[P_RESHARES] - a.count[P_RESHARES]);
-    } else if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
-      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
-    } else if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
-      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
-    } else if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
-      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
-    } else {
-      if (a.name) {
-        name1 = a.name.toUpperCase();
-      } else {
-        name1 = "";
-      }
-      if (b.name) {
-        name2 = b.name.toUpperCase();
-      } else {
-        name2 = "";
-      }
-      if (name1 == name2) {
-        return 0;
-      } else {
-        if (name1 < name2) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
     }
+    if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
+      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
+    }
+    if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
+      return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
+    }
+    if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
+      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
+    }
+    if (a.name) {
+      name1 = a.name.toUpperCase();
+    } else {
+      name1 = "";
+    }
+    if (b.name) {
+      name2 = b.name.toUpperCase();
+    } else {
+      name2 = "";
+    }
+    if (name1 == name2) {
+      return 0;
+    }
+    if (name1 < name2) {
+      return -1;
+    }
+    return 1;
   };
 
   sort_function[P_PLUSONES] = function (a, b) {
     var name1, name2;
     if (a.count[P_PLUSONES] != b.count[P_PLUSONES]) {
       return (b.count[P_PLUSONES] - a.count[P_PLUSONES]);
-    } else if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
-      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
-    } else if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
-      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
-    } else if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
-      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
-    } else {
-      if (a.name) {
-        name1 = a.name.toUpperCase();
-      } else {
-        name1 = "";
-      }
-      if (b.name) {
-        name2 = b.name.toUpperCase();
-      } else {
-        name2 = "";
-      }
-      if (name1 == name2) {
-        return 0;
-      } else {
-        if (name1 < name2) {
-          return -1;
-        } else {
-          return 1;
-        }
-      }
     }
+    if (a.count[P_COMMENTS] != b.count[P_COMMENTS]) {
+      return (b.count[P_COMMENTS] - a.count[P_COMMENTS]);
+    }
+    if (a.count[P_RESHARES] != b.count[P_RESHARES]) {
+      return (b.count[P_RESHARES] - a.count[P_RESHARES]);
+    }
+    if (a.count[P_RESHARED] != b.count[P_RESHARED]) {
+      return (b.count[P_RESHARED] - a.count[P_RESHARED]);
+    }
+    if (a.name) {
+      name1 = a.name.toUpperCase();
+    } else {
+      name1 = "";
+    }
+    if (b.name) {
+      name2 = b.name.toUpperCase();
+    } else {
+      name2 = "";
+    }
+    if (name1 == name2) {
+      return 0;
+    }
+    if (name1 < name2) {
+      return -1;
+    }
+    return 1;
   };
 
   date_sort_function = function (a, b) {
@@ -270,21 +270,21 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       item.chk_original = true;
     }
     int_type = chk_r ? ST_RESHARED : ST_ORIGINAL;
-    int_audience = SA_LIMITED;
-    if (item.provider && item.provider.title && item.provider.title == "Community") {
-      int_audience = SA_COMMUNITY;
-    } else {
-      if (item.access && item.access.description) {
-        if (item.access.description == "Public") {
-          int_audience = SA_PUBLIC;
-        } else if (item.access.description == "Limited" || item.access.description == "Shared privately") {
-          int_audience = SA_LIMITED;
-        } else {
-          int_audience = SA_COMMUNITY;
-        }
-      } else {
+    if (item.access && item.access.description) {
+      if (item.access.description == "Public") {
         int_audience = SA_PUBLIC;
+      } else if (item.access.description == "Limited" || item.access.description == "Shared privately") {
+        int_audience = SA_PRIVATE;
+      } else {
+        if (!!item.access.items && item.access.items.length > 0 && item.access.items[0].type === "public") {
+          int_audience = SA_PUBLIC_COMMUNITY;
+        } else {
+          int_audience = SA_PRIVATE_COMMUNITY;
+        }
       }
+    } else {
+      // Shouldn't happen but just in case the response data is messed up
+      int_audience = SA_PUBLIC;
     }
     item.int_audience = int_audience;
     item.chk_comments = false;
@@ -499,10 +499,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
   function add_cols(cols, int_col) {
     if ($("#chk_all").is(":checked")) { cols.push(int_col); }
     if ($("#chk_public").is(":checked")) { cols.push(int_col + 36); }
-    if ($("#chk_extended").is(":checked")) { cols.push(int_col + 72); }
-    if ($("#chk_circles").is(":checked")) { cols.push(int_col + 108); }
-    if ($("#chk_limited").is(":checked")) { cols.push(int_col + 144); }
-    if ($("#chk_community").is(":checked")) { cols.push(int_col + 180); }
+    if ($("#chk_community").is(":checked")) { cols.push(int_col + 72); }
+    if ($("#chk_private").is(":checked")) { cols.push(int_col + 108); }
+    if ($("#chk_private_community").is(":checked")) { cols.push(int_col + 144); }
   }
 
   function update_charts() {
@@ -612,10 +611,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       'Hour',
       'Posts', 'Posts (o)', 'Posts (r)', 'Location', 'Location (o)', 'Location (r)', 'Photos', 'Photos (o)', 'Photos (r)', 'GIFs', 'GIFs (o)', 'GIFs (r)', 'Videos', 'Videos (o)', 'Videos (r)', 'Links', 'Links (o)', 'Links (r)', 'Comments', 'Comments (o)', 'Comments (r)', 'CpP', 'CpP (o)', 'CpP (r)', '+1\'s', '+1\'s (o)', '+1\'s (r)', 'PpP', 'PpP (o)', 'PpP (r)', 'Reshares', 'Reshares (o)', 'Reshares (r)', 'RpP', 'RpP (o)', 'RpP (r)',
       'Posts (p)', 'Posts (o/p)', 'Posts (r/p)', 'Location (p)', 'Location (o/p)', 'Location (r/p)', 'Photos (p)', 'Photos (o/p)', 'Photos (r/p)', 'GIFs (p)', 'GIFs (o/p)', 'GIFs (r/p)', 'Videos (p)', 'Videos (o/p)', 'Videos (r/p)', 'Links (p)', 'Links (o/p)', 'Links (r/p)', 'Comments (p)', 'Comments (o/p)', 'Comments (r/p)', 'CpP (p)', 'CpP (o/p)', 'CpP (r/p)', '+1\'s (p)', '+1\'s (o/p)', '+1\'s (r/p)', 'PpP (p)', 'PpP (o/p)', 'PpP (r/p)', 'Reshares (p)', 'Reshares (o/p)', 'Reshares (r/p)', 'RpP (p)', 'RpP (o/p)', 'RpP (r/p)',
-      'Posts (e)', 'Posts (o/e)', 'Posts (r/e)', 'Location (e)', 'Location (o/e)', 'Location (r/e)', 'Photos (e)', 'Photos (o/e)', 'Photos (r/e)', 'GIFs (e)', 'GIFs (o/e)', 'GIFs (r/e)', 'Videos (e)', 'Videos (o/e)', 'Videos (r/e)', 'Links (e)', 'Links (o/e)', 'Links (r/e)', 'Comments (e)', 'Comments (o/e)', 'Comments (r/e)', 'CpP (e)', 'CpP (o/e)', 'CpP (r/e)', '+1\'s (e)', '+1\'s (o/e)', '+1\'s (r/e)', 'PpP (e)', 'PpP (o/e)', 'PpP (r/e)', 'Reshares (e)', 'Reshares (o/e)', 'Reshares (r/e)', 'RpP (e)', 'RpP (o/e)', 'RpP (r/e)',
-      'Posts (c)', 'Posts (o/c)', 'Posts (r/c)', 'Location (c)', 'Location (o/c)', 'Location (r/c)', 'Photos (c)', 'Photos (o/c)', 'Photos (r/c)', 'GIFs (c)', 'GIFs (o/c)', 'GIFs (r/c)', 'Videos (c)', 'Videos (o/c)', 'Videos (r/c)', 'Links (c)', 'Links (o/c)', 'Links (r/c)', 'Comments (c)', 'Comments (o/c)', 'Comments (r/c)', 'CpP (c)', 'CpP (o/c)', 'CpP (r/c)', '+1\'s (c)', '+1\'s (o/c)', '+1\'s (r/c)', 'PpP (c)', 'PpP (o/c)', 'PpP (r/c)', 'Reshares (c)', 'Reshares (o/c)', 'Reshares (r/c)', 'RpP (c)', 'RpP (o/c)', 'RpP (r/c)',
-      'Posts (l)', 'Posts (o/l)', 'Posts (r/l)', 'Location (l)', 'Location (o/l)', 'Location (r/l)', 'Photos (l)', 'Photos (o/l)', 'Photos (r/l)', 'GIFs (l)', 'GIFs (o/l)', 'GIFs (r/l)', 'Videos (l)', 'Videos (o/l)', 'Videos (r/l)', 'Links (l)', 'Links (o/l)', 'Links (r/l)', 'Comments (l)', 'Comments (o/l)', 'Comments (r/l)', 'CpP (l)', 'CpP (o/l)', 'CpP (r/l)', '+1\'s (l)', '+1\'s (o/l)', '+1\'s (r/l)', 'PpP (l)', 'PpP (o/l)', 'PpP (r/l)', 'Reshares (l)', 'Reshares (o/l)', 'Reshares (r/l)', 'RpP (l)', 'RpP (o/l)', 'RpP (r/l)',
-      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)'
+      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)',
+      'Posts (pr)', 'Posts (o/pr)', 'Posts (r/pr)', 'Location (pr)', 'Location (o/pr)', 'Location (r/pr)', 'Photos (pr)', 'Photos (o/pr)', 'Photos (r/pr)', 'GIFs (pr)', 'GIFs (o/pr)', 'GIFs (r/pr)', 'Videos (pr)', 'Videos (o/pr)', 'Videos (r/pr)', 'Links (pr)', 'Links (o/pr)', 'Links (r/pr)', 'Comments (pr)', 'Comments (o/pr)', 'Comments (r/pr)', 'CpP (pr)', 'CpP (o/pr)', 'CpP (r/pr)', '+1\'s (pr)', '+1\'s (o/pr)', '+1\'s (r/pr)', 'PpP (pr)', 'PpP (o/pr)', 'PpP (r/pr)', 'Reshares (pr)', 'Reshares (o/pr)', 'Reshares (r/pr)', 'RpP (pr)', 'RpP (o/pr)', 'RpP (r/pr)',
+      'Posts (pc)', 'Posts (o/pc)', 'Posts (r/pc)', 'Location (pc)', 'Location (o/pc)', 'Location (r/pc)', 'Photos (pc)', 'Photos (o/pc)', 'Photos (r/pc)', 'GIFs (pc)', 'GIFs (o/pc)', 'GIFs (r/pc)', 'Videos (pc)', 'Videos (o/pc)', 'Videos (r/pc)', 'Links (pc)', 'Links (o/pc)', 'Links (r/pc)', 'Comments (pc)', 'Comments (o/pc)', 'Comments (r/pc)', 'CpP (pc)', 'CpP (o/pc)', 'CpP (r/pc)', '+1\'s (pc)', '+1\'s (o/pc)', '+1\'s (r/pc)', 'PpP (pc)', 'PpP (o/pc)', 'PpP (r/pc)', 'Reshares (pc)', 'Reshares (o/pc)', 'Reshares (r/pc)', 'RpP (pc)', 'RpP (o/pc)', 'RpP (r/pc)'
     ]);
     for (i = 0; i < 24; i++) {
       data_array.push([
@@ -624,12 +622,11 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       ]);
       for (j = 0; j < S_VARS; j++) {
         for (k = 0; k < 3; k++) {
-          for (l = 0; l < 6; l++) {
+          for (l = 0; l < 5; l++) {
             data_array[data_array.length - 1][l * 36 + j * 3 + k + 1] = hour_stats[i][j][k][l];
           }
         }
@@ -642,10 +639,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       'Weekday',
       'Posts', 'Posts (o)', 'Posts (r)', 'Location', 'Location (o)', 'Location (r)', 'Photos', 'Photos (o)', 'Photos (r)', 'GIFs', 'GIFs (o)', 'GIFs (r)', 'Videos', 'Videos (o)', 'Videos (r)', 'Links', 'Links (o)', 'Links (r)', 'Comments', 'Comments (o)', 'Comments (r)', 'CpP', 'CpP (o)', 'CpP (r)', '+1\'s', '+1\'s (o)', '+1\'s (r)', 'PpP', 'PpP (o)', 'PpP (r)', 'Reshares', 'Reshares (o)', 'Reshares (r)', 'RpP', 'RpP (o)', 'RpP (r)',
       'Posts (p)', 'Posts (o/p)', 'Posts (r/p)', 'Location (p)', 'Location (o/p)', 'Location (r/p)', 'Photos (p)', 'Photos (o/p)', 'Photos (r/p)', 'GIFs (p)', 'GIFs (o/p)', 'GIFs (r/p)', 'Videos (p)', 'Videos (o/p)', 'Videos (r/p)', 'Links (p)', 'Links (o/p)', 'Links (r/p)', 'Comments (p)', 'Comments (o/p)', 'Comments (r/p)', 'CpP (p)', 'CpP (o/p)', 'CpP (r/p)', '+1\'s (p)', '+1\'s (o/p)', '+1\'s (r/p)', 'PpP (p)', 'PpP (o/p)', 'PpP (r/p)', 'Reshares (p)', 'Reshares (o/p)', 'Reshares (r/p)', 'RpP (p)', 'RpP (o/p)', 'RpP (r/p)',
-      'Posts (e)', 'Posts (o/e)', 'Posts (r/e)', 'Location (e)', 'Location (o/e)', 'Location (r/e)', 'Photos (e)', 'Photos (o/e)', 'Photos (r/e)', 'GIFs (e)', 'GIFs (o/e)', 'GIFs (r/e)', 'Videos (e)', 'Videos (o/e)', 'Videos (r/e)', 'Links (e)', 'Links (o/e)', 'Links (r/e)', 'Comments (e)', 'Comments (o/e)', 'Comments (r/e)', 'CpP (e)', 'CpP (o/e)', 'CpP (r/e)', '+1\'s (e)', '+1\'s (o/e)', '+1\'s (r/e)', 'PpP (e)', 'PpP (o/e)', 'PpP (r/e)', 'Reshares (e)', 'Reshares (o/e)', 'Reshares (r/e)', 'RpP (e)', 'RpP (o/e)', 'RpP (r/e)',
-      'Posts (c)', 'Posts (o/c)', 'Posts (r/c)', 'Location (c)', 'Location (o/c)', 'Location (r/c)', 'Photos (c)', 'Photos (o/c)', 'Photos (r/c)', 'GIFs (c)', 'GIFs (o/c)', 'GIFs (r/c)', 'Videos (c)', 'Videos (o/c)', 'Videos (r/c)', 'Links (c)', 'Links (o/c)', 'Links (r/c)', 'Comments (c)', 'Comments (o/c)', 'Comments (r/c)', 'CpP (c)', 'CpP (o/c)', 'CpP (r/c)', '+1\'s (c)', '+1\'s (o/c)', '+1\'s (r/c)', 'PpP (c)', 'PpP (o/c)', 'PpP (r/c)', 'Reshares (c)', 'Reshares (o/c)', 'Reshares (r/c)', 'RpP (c)', 'RpP (o/c)', 'RpP (r/c)',
-      'Posts (l)', 'Posts (o/l)', 'Posts (r/l)', 'Location (l)', 'Location (o/l)', 'Location (r/l)', 'Photos (l)', 'Photos (o/l)', 'Photos (r/l)', 'GIFs (l)', 'GIFs (o/l)', 'GIFs (r/l)', 'Videos (l)', 'Videos (o/l)', 'Videos (r/l)', 'Links (l)', 'Links (o/l)', 'Links (r/l)', 'Comments (l)', 'Comments (o/l)', 'Comments (r/l)', 'CpP (l)', 'CpP (o/l)', 'CpP (r/l)', '+1\'s (l)', '+1\'s (o/l)', '+1\'s (r/l)', 'PpP (l)', 'PpP (o/l)', 'PpP (r/l)', 'Reshares (l)', 'Reshares (o/l)', 'Reshares (r/l)', 'RpP (l)', 'RpP (o/l)', 'RpP (r/l)',
-      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)'
+      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)',
+      'Posts (pr)', 'Posts (o/pr)', 'Posts (r/pr)', 'Location (pr)', 'Location (o/pr)', 'Location (r/pr)', 'Photos (pr)', 'Photos (o/pr)', 'Photos (r/pr)', 'GIFs (pr)', 'GIFs (o/pr)', 'GIFs (r/pr)', 'Videos (pr)', 'Videos (o/pr)', 'Videos (r/pr)', 'Links (pr)', 'Links (o/pr)', 'Links (r/pr)', 'Comments (pr)', 'Comments (o/pr)', 'Comments (r/pr)', 'CpP (pr)', 'CpP (o/pr)', 'CpP (r/pr)', '+1\'s (pr)', '+1\'s (o/pr)', '+1\'s (r/pr)', 'PpP (pr)', 'PpP (o/pr)', 'PpP (r/pr)', 'Reshares (pr)', 'Reshares (o/pr)', 'Reshares (r/pr)', 'RpP (pr)', 'RpP (o/pr)', 'RpP (r/pr)',
+      'Posts (pc)', 'Posts (o/pc)', 'Posts (r/pc)', 'Location (pc)', 'Location (o/pc)', 'Location (r/pc)', 'Photos (pc)', 'Photos (o/pc)', 'Photos (r/pc)', 'GIFs (pc)', 'GIFs (o/pc)', 'GIFs (r/pc)', 'Videos (pc)', 'Videos (o/pc)', 'Videos (r/pc)', 'Links (pc)', 'Links (o/pc)', 'Links (r/pc)', 'Comments (pc)', 'Comments (o/pc)', 'Comments (r/pc)', 'CpP (pc)', 'CpP (o/pc)', 'CpP (r/pc)', '+1\'s (pc)', '+1\'s (o/pc)', '+1\'s (r/pc)', 'PpP (pc)', 'PpP (o/pc)', 'PpP (r/pc)', 'Reshares (pc)', 'Reshares (o/pc)', 'Reshares (r/pc)', 'RpP (pc)', 'RpP (o/pc)', 'RpP (r/pc)'
     ]);
     for (i = 0; i < 7; i++) {
       switch (i) {
@@ -663,12 +659,11 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       ]);
       for (j = 0; j < S_VARS; j++) {
         for (k = 0; k < 3; k++) {
-          for (l = 0; l < 6; l++) {
+          for (l = 0; l < 5; l++) {
             data_array[data_array.length - 1][l * 36 + j * 3 + k + 1] = day_stats[i][j][k][l];
           }
         }
@@ -681,10 +676,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       'Weekday',
       'Posts', 'Posts (o)', 'Posts (r)', 'Location', 'Location (o)', 'Location (r)', 'Photos', 'Photos (o)', 'Photos (r)', 'GIFs', 'GIFs (o)', 'GIFs (r)', 'Videos', 'Videos (o)', 'Videos (r)', 'Links', 'Links (o)', 'Links (r)', 'Comments', 'Comments (o)', 'Comments (r)', 'CpP', 'CpP (o)', 'CpP (r)', '+1\'s', '+1\'s (o)', '+1\'s (r)', 'PpP', 'PpP (o)', 'PpP (r)', 'Reshares', 'Reshares (o)', 'Reshares (r)', 'RpP', 'RpP (o)', 'RpP (r)',
       'Posts (p)', 'Posts (o/p)', 'Posts (r/p)', 'Location (p)', 'Location (o/p)', 'Location (r/p)', 'Photos (p)', 'Photos (o/p)', 'Photos (r/p)', 'GIFs (p)', 'GIFs (o/p)', 'GIFs (r/p)', 'Videos (p)', 'Videos (o/p)', 'Videos (r/p)', 'Links (p)', 'Links (o/p)', 'Links (r/p)', 'Comments (p)', 'Comments (o/p)', 'Comments (r/p)', 'CpP (p)', 'CpP (o/p)', 'CpP (r/p)', '+1\'s (p)', '+1\'s (o/p)', '+1\'s (r/p)', 'PpP (p)', 'PpP (o/p)', 'PpP (r/p)', 'Reshares (p)', 'Reshares (o/p)', 'Reshares (r/p)', 'RpP (p)', 'RpP (o/p)', 'RpP (r/p)',
-      'Posts (e)', 'Posts (o/e)', 'Posts (r/e)', 'Location (e)', 'Location (o/e)', 'Location (r/e)', 'Photos (e)', 'Photos (o/e)', 'Photos (r/e)', 'GIFs (e)', 'GIFs (o/e)', 'GIFs (r/e)', 'Videos (e)', 'Videos (o/e)', 'Videos (r/e)', 'Links (e)', 'Links (o/e)', 'Links (r/e)', 'Comments (e)', 'Comments (o/e)', 'Comments (r/e)', 'CpP (e)', 'CpP (o/e)', 'CpP (r/e)', '+1\'s (e)', '+1\'s (o/e)', '+1\'s (r/e)', 'PpP (e)', 'PpP (o/e)', 'PpP (r/e)', 'Reshares (e)', 'Reshares (o/e)', 'Reshares (r/e)', 'RpP (e)', 'RpP (o/e)', 'RpP (r/e)',
-      'Posts (c)', 'Posts (o/c)', 'Posts (r/c)', 'Location (c)', 'Location (o/c)', 'Location (r/c)', 'Photos (c)', 'Photos (o/c)', 'Photos (r/c)', 'GIFs (c)', 'GIFs (o/c)', 'GIFs (r/c)', 'Videos (c)', 'Videos (o/c)', 'Videos (r/c)', 'Links (c)', 'Links (o/c)', 'Links (r/c)', 'Comments (c)', 'Comments (o/c)', 'Comments (r/c)', 'CpP (c)', 'CpP (o/c)', 'CpP (r/c)', '+1\'s (c)', '+1\'s (o/c)', '+1\'s (r/c)', 'PpP (c)', 'PpP (o/c)', 'PpP (r/c)', 'Reshares (c)', 'Reshares (o/c)', 'Reshares (r/c)', 'RpP (c)', 'RpP (o/c)', 'RpP (r/c)',
-      'Posts (l)', 'Posts (o/l)', 'Posts (r/l)', 'Location (l)', 'Location (o/l)', 'Location (r/l)', 'Photos (l)', 'Photos (o/l)', 'Photos (r/l)', 'GIFs (l)', 'GIFs (o/l)', 'GIFs (r/l)', 'Videos (l)', 'Videos (o/l)', 'Videos (r/l)', 'Links (l)', 'Links (o/l)', 'Links (r/l)', 'Comments (l)', 'Comments (o/l)', 'Comments (r/l)', 'CpP (l)', 'CpP (o/l)', 'CpP (r/l)', '+1\'s (l)', '+1\'s (o/l)', '+1\'s (r/l)', 'PpP (l)', 'PpP (o/l)', 'PpP (r/l)', 'Reshares (l)', 'Reshares (o/l)', 'Reshares (r/l)', 'RpP (l)', 'RpP (o/l)', 'RpP (r/l)',
-      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)'
+      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)',
+      'Posts (pr)', 'Posts (o/pr)', 'Posts (r/pr)', 'Location (pr)', 'Location (o/pr)', 'Location (r/pr)', 'Photos (pr)', 'Photos (o/pr)', 'Photos (r/pr)', 'GIFs (pr)', 'GIFs (o/pr)', 'GIFs (r/pr)', 'Videos (pr)', 'Videos (o/pr)', 'Videos (r/pr)', 'Links (pr)', 'Links (o/pr)', 'Links (r/pr)', 'Comments (pr)', 'Comments (o/pr)', 'Comments (r/pr)', 'CpP (pr)', 'CpP (o/pr)', 'CpP (r/pr)', '+1\'s (pr)', '+1\'s (o/pr)', '+1\'s (r/pr)', 'PpP (pr)', 'PpP (o/pr)', 'PpP (r/pr)', 'Reshares (pr)', 'Reshares (o/pr)', 'Reshares (r/pr)', 'RpP (pr)', 'RpP (o/pr)', 'RpP (r/pr)',
+      'Posts (pc)', 'Posts (o/pc)', 'Posts (r/pc)', 'Location (pc)', 'Location (o/pc)', 'Location (r/pc)', 'Photos (pc)', 'Photos (o/pc)', 'Photos (r/pc)', 'GIFs (pc)', 'GIFs (o/pc)', 'GIFs (r/pc)', 'Videos (pc)', 'Videos (o/pc)', 'Videos (r/pc)', 'Links (pc)', 'Links (o/pc)', 'Links (r/pc)', 'Comments (pc)', 'Comments (o/pc)', 'Comments (r/pc)', 'CpP (pc)', 'CpP (o/pc)', 'CpP (r/pc)', '+1\'s (pc)', '+1\'s (o/pc)', '+1\'s (r/pc)', 'PpP (pc)', 'PpP (o/pc)', 'PpP (r/pc)', 'Reshares (pc)', 'Reshares (o/pc)', 'Reshares (r/pc)', 'RpP (pc)', 'RpP (o/pc)', 'RpP (r/pc)'
     ]);
     for (i = 0; i < 7; i++) {
       switch (i) {
@@ -702,12 +696,11 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       ]);
       for (j = 0; j < S_VARS; j++) {
         for (k = 0; k < 3; k++) {
-          for (l = 0; l < 6; l++) {
+          for (l = 0; l < 5; l++) {
             data_array[data_array.length - 1][l * 36 + j * 3 + k + 1] = day_stats[i][j][k][l];
           }
         }
@@ -720,10 +713,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       'Weekday',
       'Posts', 'Posts (o)', 'Posts (r)', 'Location', 'Location (o)', 'Location (r)', 'Photos', 'Photos (o)', 'Photos (r)', 'GIFs', 'GIFs (o)', 'GIFs (r)', 'Videos', 'Videos (o)', 'Videos (r)', 'Links', 'Links (o)', 'Links (r)', 'Comments', 'Comments (o)', 'Comments (r)', 'CpP', 'CpP (o)', 'CpP (r)', '+1\'s', '+1\'s (o)', '+1\'s (r)', 'PpP', 'PpP (o)', 'PpP (r)', 'Reshares', 'Reshares (o)', 'Reshares (r)', 'RpP', 'RpP (o)', 'RpP (r)',
       'Posts (p)', 'Posts (o/p)', 'Posts (r/p)', 'Location (p)', 'Location (o/p)', 'Location (r/p)', 'Photos (p)', 'Photos (o/p)', 'Photos (r/p)', 'GIFs (p)', 'GIFs (o/p)', 'GIFs (r/p)', 'Videos (p)', 'Videos (o/p)', 'Videos (r/p)', 'Links (p)', 'Links (o/p)', 'Links (r/p)', 'Comments (p)', 'Comments (o/p)', 'Comments (r/p)', 'CpP (p)', 'CpP (o/p)', 'CpP (r/p)', '+1\'s (p)', '+1\'s (o/p)', '+1\'s (r/p)', 'PpP (p)', 'PpP (o/p)', 'PpP (r/p)', 'Reshares (p)', 'Reshares (o/p)', 'Reshares (r/p)', 'RpP (p)', 'RpP (o/p)', 'RpP (r/p)',
-      'Posts (e)', 'Posts (o/e)', 'Posts (r/e)', 'Location (e)', 'Location (o/e)', 'Location (r/e)', 'Photos (e)', 'Photos (o/e)', 'Photos (r/e)', 'GIFs (e)', 'GIFs (o/e)', 'GIFs (r/e)', 'Videos (e)', 'Videos (o/e)', 'Videos (r/e)', 'Links (e)', 'Links (o/e)', 'Links (r/e)', 'Comments (e)', 'Comments (o/e)', 'Comments (r/e)', 'CpP (e)', 'CpP (o/e)', 'CpP (r/e)', '+1\'s (e)', '+1\'s (o/e)', '+1\'s (r/e)', 'PpP (e)', 'PpP (o/e)', 'PpP (r/e)', 'Reshares (e)', 'Reshares (o/e)', 'Reshares (r/e)', 'RpP (e)', 'RpP (o/e)', 'RpP (r/e)',
-      'Posts (c)', 'Posts (o/c)', 'Posts (r/c)', 'Location (c)', 'Location (o/c)', 'Location (r/c)', 'Photos (c)', 'Photos (o/c)', 'Photos (r/c)', 'GIFs (c)', 'GIFs (o/c)', 'GIFs (r/c)', 'Videos (c)', 'Videos (o/c)', 'Videos (r/c)', 'Links (c)', 'Links (o/c)', 'Links (r/c)', 'Comments (c)', 'Comments (o/c)', 'Comments (r/c)', 'CpP (c)', 'CpP (o/c)', 'CpP (r/c)', '+1\'s (c)', '+1\'s (o/c)', '+1\'s (r/c)', 'PpP (c)', 'PpP (o/c)', 'PpP (r/c)', 'Reshares (c)', 'Reshares (o/c)', 'Reshares (r/c)', 'RpP (c)', 'RpP (o/c)', 'RpP (r/c)',
-      'Posts (l)', 'Posts (o/l)', 'Posts (r/l)', 'Location (l)', 'Location (o/l)', 'Location (r/l)', 'Photos (l)', 'Photos (o/l)', 'Photos (r/l)', 'GIFs (l)', 'GIFs (o/l)', 'GIFs (r/l)', 'Videos (l)', 'Videos (o/l)', 'Videos (r/l)', 'Links (l)', 'Links (o/l)', 'Links (r/l)', 'Comments (l)', 'Comments (o/l)', 'Comments (r/l)', 'CpP (l)', 'CpP (o/l)', 'CpP (r/l)', '+1\'s (l)', '+1\'s (o/l)', '+1\'s (r/l)', 'PpP (l)', 'PpP (o/l)', 'PpP (r/l)', 'Reshares (l)', 'Reshares (o/l)', 'Reshares (r/l)', 'RpP (l)', 'RpP (o/l)', 'RpP (r/l)',
-      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)'
+      'Posts (co)', 'Posts (o/co)', 'Posts (r/co)', 'Location (co)', 'Location (o/co)', 'Location (r/co)', 'Photos (co)', 'Photos (o/co)', 'Photos (r/co)', 'GIFs (co)', 'GIFs (o/co)', 'GIFs (r/co)', 'Videos (co)', 'Videos (o/co)', 'Videos (r/co)', 'Links (co)', 'Links (o/co)', 'Links (r/co)', 'Comments (co)', 'Comments (o/co)', 'Comments (r/co)', 'CpP (co)', 'CpP (o/co)', 'CpP (r/co)', '+1\'s (co)', '+1\'s (o/co)', '+1\'s (r/co)', 'PpP (co)', 'PpP (o/co)', 'PpP (r/co)', 'Reshares (co)', 'Reshares (o/co)', 'Reshares (r/co)', 'RpP (co)', 'RpP (o/co)', 'RpP (r/co)',
+      'Posts (pr)', 'Posts (o/pr)', 'Posts (r/pr)', 'Location (pr)', 'Location (o/pr)', 'Location (r/pr)', 'Photos (pr)', 'Photos (o/pr)', 'Photos (r/pr)', 'GIFs (pr)', 'GIFs (o/pr)', 'GIFs (r/pr)', 'Videos (pr)', 'Videos (o/pr)', 'Videos (r/pr)', 'Links (pr)', 'Links (o/pr)', 'Links (r/pr)', 'Comments (pr)', 'Comments (o/pr)', 'Comments (r/pr)', 'CpP (pr)', 'CpP (o/pr)', 'CpP (r/pr)', '+1\'s (pr)', '+1\'s (o/pr)', '+1\'s (r/pr)', 'PpP (pr)', 'PpP (o/pr)', 'PpP (r/pr)', 'Reshares (pr)', 'Reshares (o/pr)', 'Reshares (r/pr)', 'RpP (pr)', 'RpP (o/pr)', 'RpP (r/pr)',
+      'Posts (pc)', 'Posts (o/pc)', 'Posts (r/pc)', 'Location (pc)', 'Location (o/pc)', 'Location (r/pc)', 'Photos (pc)', 'Photos (o/pc)', 'Photos (r/pc)', 'GIFs (pc)', 'GIFs (o/pc)', 'GIFs (r/pc)', 'Videos (pc)', 'Videos (o/pc)', 'Videos (r/pc)', 'Links (pc)', 'Links (o/pc)', 'Links (r/pc)', 'Comments (pc)', 'Comments (o/pc)', 'Comments (r/pc)', 'CpP (pc)', 'CpP (o/pc)', 'CpP (r/pc)', '+1\'s (pc)', '+1\'s (o/pc)', '+1\'s (r/pc)', 'PpP (pc)', 'PpP (o/pc)', 'PpP (r/pc)', 'Reshares (pc)', 'Reshares (o/pc)', 'Reshares (r/pc)', 'RpP (pc)', 'RpP (o/pc)', 'RpP (r/pc)'
     ]);
     if (min_date) {
       tmp_date = new Date();
@@ -736,13 +728,12 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         ]);
         if (daily_stats[i]) {
           for (j = 0; j < S_VARS; j++) {
             for (k = 0; k < 3; k++) {
-              for (l = 0; l < 6; l++) {
+              for (l = 0; l < 5; l++) {
                 data_array[data_array.length - 1][l * 36 + j * 3 + k + 1] = daily_stats[i][j][k][l];
               }
             }
@@ -755,7 +746,6 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       i = tmp_date.nice_short_date();
       data_array.push([
         i,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -833,10 +823,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
         chk_show = true;
         if (!item.chk_active) { chk_show = false; }
         if (!$("#posts_public").is(":checked") && item.int_audience == SA_PUBLIC) { chk_show = false; }
-        if (!$("#posts_extended").is(":checked") && item.int_audience == SA_EXTENDED) { chk_show = false; }
-        if (!$("#posts_circles").is(":checked") && item.int_audience == SA_CIRCLES) { chk_show = false; }
-        if (!$("#posts_limited").is(":checked") && item.int_audience == SA_LIMITED) { chk_show = false; }
-        if (!$("#posts_community").is(":checked") && item.int_audience == SA_COMMUNITY) { chk_show = false; }
+        if (!$("#posts_community").is(":checked") && item.int_audience == SA_PUBLIC_COMMUNITY) { chk_show = false; }
+        if (!$("#posts_private").is(":checked") && item.int_audience == SA_PRIVATE) { chk_show = false; }
+        if (!$("#posts_private_community").is(":checked") && item.int_audience == SA_PRIVATE_COMMUNITY) { chk_show = false; }
         if (!$("#posts_original").is(":checked") && item.chk_original) { chk_show = false; }
         if (!$("#posts_reshared").is(":checked") && item.chk_reshared) { chk_show = false; }
         if (!$("#posts_location").is(":checked") && item.chk_location) { chk_show = false; }
@@ -1038,11 +1027,10 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     str_row += "<td sorttable_customkey=\"" + post_time.yyyymmddhhmmss() + "\" style=\"white-space: nowrap;\"><a href=\"" + item.url + "\">" + post_time.nice_date() + "<\/a><\/td>";
     audience = "";
     switch (item.int_audience) {
-    case SA_PUBLIC: audience = "P"; break;
-    case SA_LIMITED: audience = "L"; break;
-    case SA_EXTENDED: audience = "E"; break;
-    case SA_CIRCLES: audience = "C"; break;
-    case SA_COMMUNITY: audience = "CO"; break;
+    case SA_PUBLIC: audience = "PU"; break;
+    case SA_PRIVATE: audience = "PR"; break;
+    case SA_PUBLIC_COMMUNITY: audience = "CO"; break;
+    case SA_PRIVATE_COMMUNITY: audience = "PC"; break;
     }
     str_row += "<td>" + audience + "<\/td>";
     if (item.object.replies != undefined) {
@@ -1070,9 +1058,8 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
   function html_entities(value) {
     if (value) {
       return $("<div />").text(value).html();
-    } else {
-      return "";
     }
+    return "";
   }
 
   function print_data_row(i) {
@@ -1101,10 +1088,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     audience = "";
     switch (item.int_audience) {
     case SA_PUBLIC: audience = "Public"; break;
-    case SA_LIMITED: audience = "Limited"; break;
-    case SA_EXTENDED: audience = "Extended Circles"; break;
-    case SA_CIRCLES: audience = "Circles"; break;
-    case SA_COMMUNITY: audience = "Community"; break;
+    case SA_PUBLIC_COMMUNITY: audience = "Public Community"; break;
+    case SA_PRIVATE: audience = "Private"; break;
+    case SA_PRIVATE_COMMUNITY: audience = "Private Community"; break;
     }
     str_row += "<td>" + audience + "<\/td>";
     str_row += "<td>" + (item.chk_original ? 1 : 0) + "<\/td>";
@@ -1178,9 +1164,9 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
         audience = "";
         switch (item.int_audience) {
         case SA_PUBLIC: audience = "Public"; break;
-        case SA_LIMITED: audience = "Limited"; break;
-        case SA_EXTENDED: audience = "Extended Circles"; break;
-        case SA_CIRCLES: audience = "Circles"; break;
+        case SA_PUBLIC_COMMUNITY: audience = "Public Community"; break;
+        case SA_PRIVATE: audience = "Private"; break;
+        case SA_PRIVATE_COMMUNITY: audience = "Private Community"; break;
         }
         str_line += ",\"" + make_csv_compliant(audience) + "\"";
         str_line += "," + (item.chk_original ? 1 : 0);
@@ -1396,14 +1382,13 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
 
   function display_stats() {
     var a, suffix;
-    for (a = 0; a < 6; a++) {
+    for (a = 0; a < 5; a++) {
       switch (a) {
       case SA_TOTAL: suffix = "#t"; break;
       case SA_PUBLIC: suffix = "#tp"; break;
-      case SA_EXTENDED: suffix = "#te"; break;
-      case SA_CIRCLES: suffix = "#tc"; break;
-      case SA_LIMITED: suffix = "#tl"; break;
-      case SA_COMMUNITY: suffix = "#tco"; break;
+      case SA_PUBLIC_COMMUNITY: suffix = "#tco"; break;
+      case SA_PRIVATE: suffix = "#tpr"; break;
+      case SA_PRIVATE_COMMUNITY: suffix = "#tpc"; break;
       }
       $(suffix + "_posts").html(total_stats[S_POSTS][ST_TOTAL][a]);
       $(suffix + "_posts_o").html(total_stats[S_POSTS][ST_ORIGINAL][a]);
@@ -2316,7 +2301,6 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       menu_click("people");
       if (!$("#stat_people").hasClass("stat_calculated")) {
         check_people();
-        display_circles();
         $("#d_people .followers").show();
         $("#stat_people").addClass("stat_calculated");
         $("#people > .recalculate").hide();

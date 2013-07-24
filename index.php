@@ -247,7 +247,7 @@
           </div>
           <div id="login_version">
 <?php if ($show_login) { ?>
-            <div class="instructions">Login via Google+&#8482; to access your own public data (<a href="#" target="_self">more info</a>)</div>
+            <div class="instructions">Sign in with Google to access your own public data (<a href="#" target="_self">more info</a>)</div>
             <button class="g-signin"
               data-scope="https://www.googleapis.com/auth/plus.login"
               data-clientId="<?php echo $client_id; ?>"
@@ -263,7 +263,7 @@
           </div>
           <div class="or">or</div>
           <div id="api_version">
-            <div class="instructions">Enter the ID or URL of a Google+ Profile, Page or Community (<a href="#" target="_self">more info</a>)</div>
+            <div class="instructions">Enter the ID or URL of a Google+&#8482; Profile, Page or Community (<a href="#" target="_self">more info</a>)</div>
             <form method="post" action="<?php echo $base_url; ?>" target="_self">
               <input id="userid" name="userid" type="text">
               <input id="submit" type="submit">
@@ -299,11 +299,11 @@
         </td>
         <td id="instructions">
           <div id="login_instructions" style="display: none;">
-            <h1>Login via Google+</h1><br>
+            <h1>Sign in with Google</h1><br>
 
-            Clicking on the login button will redirect you to a Google page where you will be asked to give permission to this page to access some of your information.<br><br>
+            Clicking on the Sign-in button will open a Google page where you will be asked to give permission to this page to access some of your information.<br><br>
             <img src="<?php echo $base_url; ?>images/instructions_login.png" alt="Login"><br>
-            Clicking on "Allow access" will redirect you back to this page with your profile information added automatically.<br><br>
+            Clicking on "Accept" will update this page with your profile information automatically.<br><br>
             The permission will only be used once to get your profile ID and access your public profile information. None of this data will be stored on our server.
 
           </div>
@@ -413,7 +413,7 @@
         </td>
         <td>
           <table>
-            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Communities</th></tr>
+            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Public Communities</th></tr>
             <tr><th></th><th>Total</th><th>Original</th><th>Reshared</th></tr>
             <tr><th>Posts</th><td class="stats" id="tco_posts"></td><td class="stats" id="tco_posts_o"></td><td class="stats" id="tco_posts_r"></td></tr>
             <tr><th>Location</th><td class="stats" id="tco_loc"></td><td class="stats" id="tco_loc_o"></td><td class="stats" id="tco_loc_r"></td></tr>
@@ -429,58 +429,41 @@
             <tr><td class="stats noborder">per post</td><td class="stats" id="tco_rpp"></td><td class="stats" id="tco_rpp_o"></td><td class="stats" id="tco_rpp_r"></td></tr>
           </table>
         </td></tr>
-        <tr><td>
+        <tr><td></td>
+        <td>
           <table class="takeout">
-            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Extended Circles</th></tr>
+            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Private</th></tr>
             <tr><th></th><th>Total</th><th>Original</th><th>Reshared</th></tr>
-            <tr><th>Posts</th><td class="stats" id="te_posts"></td><td class="stats" id="te_posts_o"></td><td class="stats" id="te_posts_r"></td></tr>
-            <tr><th>Location</th><td class="stats" id="te_loc"></td><td class="stats" id="te_loc_o"></td><td class="stats" id="te_loc_r"></td></tr>
-            <tr><th>Photos</th><td class="stats" id="te_photos"></td><td class="stats" id="te_photos_o"></td><td class="stats" id="te_photos_r"></td></tr>
-            <tr><th>GIFs</th><td class="stats" id="te_gifs"></td><td class="stats" id="te_gifs_o"></td><td class="stats" id="te_gifs_r"></td></tr>
-            <tr><th>Videos</th><td class="stats" id="te_videos"></td><td class="stats" id="te_videos_o"></td><td class="stats" id="te_videos_r"></td></tr>
-            <tr><th>Links</th><td class="stats" id="te_links"></td><td class="stats" id="te_links_o"></td><td class="stats" id="te_links_r"></td></tr>
-            <tr><th>Comments</th><td class="stats" id="te_comments"></td><td class="stats" id="te_comments_o"></td><td class="stats" id="te_comments_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="te_cpp"></td><td class="stats" id="te_cpp_o"></td><td class="stats" id="te_cpp_r"></td></tr>
-            <tr><th>+1's</th><td class="stats" id="te_plusones"></td><td class="stats" id="te_plusones_o"></td><td class="stats" id="te_plusones_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="te_ppp"></td><td class="stats" id="te_ppp_o"></td><td class="stats" id="te_ppp_r"></td></tr>
-            <tr><th>Reshares</th><td class="stats" id="te_reshares"></td><td class="stats" id="te_reshares_o"></td><td class="stats" id="te_reshares_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="te_rpp"></td><td class="stats" id="te_rpp_o"></td><td class="stats" id="te_rpp_r"></td></tr>
+            <tr><th>Posts</th><td class="stats" id="tpr_posts"></td><td class="stats" id="tpr_posts_o"></td><td class="stats" id="tpr_posts_r"></td></tr>
+            <tr><th>Location</th><td class="stats" id="tpr_loc"></td><td class="stats" id="tpr_loc_o"></td><td class="stats" id="tpr_loc_r"></td></tr>
+            <tr><th>Photos</th><td class="stats" id="tpr_photos"></td><td class="stats" id="tpr_photos_o"></td><td class="stats" id="tpr_photos_r"></td></tr>
+            <tr><th>GIFs</th><td class="stats" id="tpr_gifs"></td><td class="stats" id="tpr_gifs_o"></td><td class="stats" id="tpr_gifs_r"></td></tr>
+            <tr><th>Videos</th><td class="stats" id="tpr_videos"></td><td class="stats" id="tpr_videos_o"></td><td class="stats" id="tpr_videos_r"></td></tr>
+            <tr><th>Links</th><td class="stats" id="tpr_links"></td><td class="stats" id="tpr_links_o"></td><td class="stats" id="tpr_links_r"></td></tr>
+            <tr><th>Comments</th><td class="stats" id="tpr_comments"></td><td class="stats" id="tpr_comments_o"></td><td class="stats" id="tpr_comments_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpr_cpp"></td><td class="stats" id="tpr_cpp_o"></td><td class="stats" id="tpr_cpp_r"></td></tr>
+            <tr><th>+1's</th><td class="stats" id="tpr_plusones"></td><td class="stats" id="tpr_plusones_o"></td><td class="stats" id="tpr_plusones_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpr_ppp"></td><td class="stats" id="tpr_ppp_o"></td><td class="stats" id="tpr_ppp_r"></td></tr>
+            <tr><th>Reshares</th><td class="stats" id="tpr_reshares"></td><td class="stats" id="tpr_reshares_o"></td><td class="stats" id="tpr_reshares_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpr_rpp"></td><td class="stats" id="tpr_rpp_o"></td><td class="stats" id="tpr_rpp_r"></td></tr>
           </table>
         </td>
         <td>
           <table class="takeout">
-            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Circles</th></tr>
+            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Private Communities</th></tr>
             <tr><th></th><th>Total</th><th>Original</th><th>Reshared</th></tr>
-            <tr><th>Posts</th><td class="stats" id="tc_posts"></td><td class="stats" id="tc_posts_o"></td><td class="stats" id="tc_posts_r"></td></tr>
-            <tr><th>Location</th><td class="stats" id="tc_loc"></td><td class="stats" id="tc_loc_o"></td><td class="stats" id="tc_loc_r"></td></tr>
-            <tr><th>Photos</th><td class="stats" id="tc_photos"></td><td class="stats" id="tc_photos_o"></td><td class="stats" id="tc_photos_r"></td></tr>
-            <tr><th>GIFs</th><td class="stats" id="tc_gifs"></td><td class="stats" id="tc_gifs_o"></td><td class="stats" id="tc_gifs_r"></td></tr>
-            <tr><th>Videos</th><td class="stats" id="tc_videos"></td><td class="stats" id="tc_videos_o"></td><td class="stats" id="tc_videos_r"></td></tr>
-            <tr><th>Links</th><td class="stats" id="tc_links"></td><td class="stats" id="tc_links_o"></td><td class="stats" id="tc_links_r"></td></tr>
-            <tr><th>Comments</th><td class="stats" id="tc_comments"></td><td class="stats" id="tc_comments_o"></td><td class="stats" id="tc_comments_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tc_cpp"></td><td class="stats" id="tc_cpp_o"></td><td class="stats" id="tc_cpp_r"></td></tr>
-            <tr><th>+1's</th><td class="stats" id="tc_plusones"></td><td class="stats" id="tc_plusones_o"></td><td class="stats" id="tc_plusones_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tc_ppp"></td><td class="stats" id="tc_ppp_o"></td><td class="stats" id="tc_ppp_r"></td></tr>
-            <tr><th>Reshares</th><td class="stats" id="tc_reshares"></td><td class="stats" id="tc_reshares_o"></td><td class="stats" id="tc_reshares_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tc_rpp"></td><td class="stats" id="tc_rpp_o"></td><td class="stats" id="tc_rpp_r"></td></tr>
-          </table>
-        </td>
-        <td>
-          <table class="takeout">
-            <tr><th colspan="4" style="text-align: center; background-color: yellow;">Limited</th></tr>
-            <tr><th></th><th>Total</th><th>Original</th><th>Reshared</th></tr>
-            <tr><th>Posts</th><td class="stats" id="tl_posts"></td><td class="stats" id="tl_posts_o"></td><td class="stats" id="tl_posts_r"></td></tr>
-            <tr><th>Location</th><td class="stats" id="tl_loc"></td><td class="stats" id="tl_loc_o"></td><td class="stats" id="tl_loc_r"></td></tr>
-            <tr><th>Photos</th><td class="stats" id="tl_photos"></td><td class="stats" id="tl_photos_o"></td><td class="stats" id="tl_photos_r"></td></tr>
-            <tr><th>GIFs</th><td class="stats" id="tl_gifs"></td><td class="stats" id="tl_gifs_o"></td><td class="stats" id="tl_gifs_r"></td></tr>
-            <tr><th>Videos</th><td class="stats" id="tl_videos"></td><td class="stats" id="tl_videos_o"></td><td class="stats" id="tl_videos_r"></td></tr>
-            <tr><th>Links</th><td class="stats" id="tl_links"></td><td class="stats" id="tl_links_o"></td><td class="stats" id="tl_links_r"></td></tr>
-            <tr><th>Comments</th><td class="stats" id="tl_comments"></td><td class="stats" id="tl_comments_o"></td><td class="stats" id="tl_comments_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tl_cpp"></td><td class="stats" id="tl_cpp_o"></td><td class="stats" id="tl_cpp_r"></td></tr>
-            <tr><th>+1's</th><td class="stats" id="tl_plusones"></td><td class="stats" id="tl_plusones_o"></td><td class="stats" id="tl_plusones_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tl_ppp"></td><td class="stats" id="tl_ppp_o"></td><td class="stats" id="tl_ppp_r"></td></tr>
-            <tr><th>Reshares</th><td class="stats" id="tl_reshares"></td><td class="stats" id="tl_reshares_o"></td><td class="stats" id="tl_reshares_r"></td></tr>
-            <tr><td class="stats noborder">per post</td><td class="stats" id="tl_rpp"></td><td class="stats" id="tl_rpp_o"></td><td class="stats" id="tl_rpp_r"></td></tr>
+            <tr><th>Posts</th><td class="stats" id="tpc_posts"></td><td class="stats" id="tpc_posts_o"></td><td class="stats" id="tpc_posts_r"></td></tr>
+            <tr><th>Location</th><td class="stats" id="tpc_loc"></td><td class="stats" id="tpc_loc_o"></td><td class="stats" id="tpc_loc_r"></td></tr>
+            <tr><th>Photos</th><td class="stats" id="tpc_photos"></td><td class="stats" id="tpc_photos_o"></td><td class="stats" id="tpc_photos_r"></td></tr>
+            <tr><th>GIFs</th><td class="stats" id="tpc_gifs"></td><td class="stats" id="tpc_gifs_o"></td><td class="stats" id="tpc_gifs_r"></td></tr>
+            <tr><th>Videos</th><td class="stats" id="tpc_videos"></td><td class="stats" id="tpc_videos_o"></td><td class="stats" id="tpc_videos_r"></td></tr>
+            <tr><th>Links</th><td class="stats" id="tpc_links"></td><td class="stats" id="tpc_links_o"></td><td class="stats" id="tpc_links_r"></td></tr>
+            <tr><th>Comments</th><td class="stats" id="tpc_comments"></td><td class="stats" id="tpc_comments_o"></td><td class="stats" id="tpc_comments_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpc_cpp"></td><td class="stats" id="tpc_cpp_o"></td><td class="stats" id="tpc_cpp_r"></td></tr>
+            <tr><th>+1's</th><td class="stats" id="tpc_plusones"></td><td class="stats" id="tpc_plusones_o"></td><td class="stats" id="tpc_plusones_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpc_ppp"></td><td class="stats" id="tpc_ppp_o"></td><td class="stats" id="tpc_ppp_r"></td></tr>
+            <tr><th>Reshares</th><td class="stats" id="tpc_reshares"></td><td class="stats" id="tpc_reshares_o"></td><td class="stats" id="tpc_reshares_r"></td></tr>
+            <tr><td class="stats noborder">per post</td><td class="stats" id="tpc_rpp"></td><td class="stats" id="tpc_rpp_o"></td><td class="stats" id="tpc_rpp_r"></td></tr>
           </table>
         </td>
       </tr></table><br>
@@ -494,7 +477,7 @@
       <p class="smalll">Note: All times are based on your local timezone.</p>
       <table class="smalll"><tr>
         <td>Type: Total <input type="checkbox" id="chk_total" name="chk_total" value="chk_total" checked> / Original <input type="checkbox" id="chk_original" name="chk_original" value="chk_original" checked> / Reshared <input type="checkbox" id="chk_reshared" name="chk_reshared" value="chk_reshared"></td>
-        <td class="smallr">Audience: Total <input type="checkbox" id="chk_all" name="chk_all" value="chk_all" checked> / Public <input type="checkbox" id="chk_public" name="chk_public" value="chk_public"> / Communities <input type="checkbox" id="chk_community" name="chk_community" value="chk_community"> <span class="takeout">/ Extended Circles <input type="checkbox" id="chk_extended" name="chk_extended" value="chk_extended"> / Circles <input type="checkbox" id="chk_circles" name="chk_circles" value="chk_circles"> / Limited <input type="checkbox" id="chk_limited" name="chk_limited" value="chk_limited"></span></td>
+        <td class="smallr">Audience: Total <input type="checkbox" id="chk_all" name="chk_all" value="chk_all" checked> / Public <input type="checkbox" id="chk_public" name="chk_public" value="chk_public"> / Public Communities <input type="checkbox" id="chk_community" name="chk_community" value="chk_community"> <span class="takeout" style="vertical-align: top;">/ Private <input type="checkbox" id="chk_private" name="chk_private" value="chk_private"> / Private Communities <input type="checkbox" id="chk_private_communities" name="chk_private_communities" value="chk_private_communities"></span></td>
       </tr><tr><td colspan="2">
         Values: Posts <input type="checkbox" id="chk_posts" name="chk_posts" value="chk_posts" checked>
         / Location <input type="checkbox" id="chk_location" name="chk_location" value="chk_location">
@@ -543,10 +526,10 @@
       <table class="filter_table">
         <tr>
           <td colspan="5" style="text-align: left;">Audience: Public <input type="checkbox" id="posts_public" name="posts_public" value="posts_public" checked> /
-            Communities <input type="checkbox" id="posts_community" name="posts_community" value="posts_community" checked>
-            <span class="takeout"> / Extended Circles <input type="checkbox" id="posts_extended" name="posts_extended" value="posts_extended" checked> /
-            Circles <input type="checkbox" id="posts_circles" name="posts_circles" value="posts_circles" checked> /
-            Limited <input type="checkbox" id="posts_limited" name="posts_limited" value="posts_limited" checked></span></td>
+            Public Communities <input type="checkbox" id="posts_community" name="posts_community" value="posts_community" checked>
+            <span class="takeout"> / Private <input type="checkbox" id="posts_private" name="posts_private" value="posts_private" checked> /
+            Private Communities <input type="checkbox" id="posts_private_community" name="posts_private_community" value="posts_private_community" checked></span>
+          </td>
         </tr>
         <tr>
           <td>Type: Original <input type="checkbox" id="posts_original" name="posts_original" value="posts_original" checked> /
@@ -575,7 +558,7 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th class="sorttable_numeric" title="Audience: P = Public, CO = Communities, E = Extended Circles, C = Circles, L = Limited">A</th>
+            <th class="sorttable_numeric" title="Audience: PU = Public, CO = Public Community, PR = Private, PC = Private Community">A</th>
             <th class="sorttable_numeric" title="Comments">C</th>
             <th class="sorttable_numeric" title="Reshares">R</th>
             <th class="sorttable_numeric" title="+1's">+1</th>
