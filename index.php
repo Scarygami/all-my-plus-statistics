@@ -200,7 +200,7 @@
   <script src="https://apis.google.com/js/client:plusone.js">{parsetags: "explicit"}</script>
   <script type="text/javascript">
     $(function () {
-      var allmyplus = new AllMyPlus(window, "<?php echo $base_url; ?>", "<?php echo $developer_key; ?>", <?php echo json_encode($actor); ?>, <?php echo json_encode($q_keyword); ?>, <?php echo json_encode($comm); ?>);
+      var allmyplus = new AllMyPlus(window, "<?php echo $base_url; ?>", "<?php echo $developer_key; ?>", <?php echo json_encode($actor); ?>, <?php echo json_encode($q_keyword); ?>, <?php echo json_encode($comm); ?>, "<?php echo $client_id; ?>");
     });
   </script>
 </head>
@@ -242,7 +242,7 @@
           <div id="user_data" style="display: none;">
             <table><tr>
               <td><a href="#" id="user_pic"><img src="<?php echo $base_url; ?>images/noimage.png" alt="No User" title="No User"></a></td>
-              <td><a href="#" id="user_name">No User</a><br><br><span id="user_activities"></span></td>
+              <td><a href="#" id="user_name">No User</a><br><br><span id="user_activities"></span><br><br><span id="share"></span></td>
             </tr></table>
           </div>
           <div id="login_version">
@@ -295,6 +295,9 @@
             Keyword <input type="text" id="filter_keyword"><br>
             <button id="all_activities">Reset filters</button><br>
             <span id="filtered_activities"></span>
+          </div><br><br>
+          <div id="sign_out" style="display: none;">
+            Signed in as <a id="login_user"></a> <button id="sign_out_button">Sign out and disconnect</button>
           </div>
         </td>
         <td id="instructions">

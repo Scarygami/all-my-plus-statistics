@@ -88,6 +88,12 @@ a:hover {
   text-align: center;
 }
 
+.login_highlight {
+  background-color: yellow;
+  padding: 10px;
+  border: 3px solid red;
+  -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+}
 .recalculate:hover {
   border: 2px solid black;
 }
@@ -288,7 +294,7 @@ a.menue:hover{background-color:#D2D2D2;}
   color: black;
  }
 
-#load_more button, #filter_data button, #login, #data_download a {
+#load_more button, #filter_data button, #data_download a, #sign_out_button {
   display: inline-block;
   outline: none;
   border: 2px solid #CCCCCC;
@@ -303,7 +309,13 @@ a.menue:hover{background-color:#D2D2D2;}
   cursor: pointer;
 }
 
-#load_more button:hover, #filter_data button:hover, #login:hover, #data_download a:hover {
+#sign_out_button {
+  font-size: 16px;
+  background-color: white;
+  width: auto;
+}
+
+#load_more button:hover, #filter_data button:hover, #data_download a:hover, #sign_out_button:hover {
   border: 2px solid black;
   color: black;
 }
@@ -528,4 +540,32 @@ table.person a {
 
 #data_table {
   display: none;
+}
+
+#share_button {
+  padding: 5px;
+  background: #fff;
+  cursor: pointer;
+  line-height: 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+#share_button .label {
+  padding-left: 10px;
+}
+#share_button .icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background: url("../images/gplus_sprite.png") transparent 0 -40px no-repeat;
+}
+#share_button:hover {
+  background-color: #cc3732;
+  color: #fff;
+  border: #dd4b39;
+}
+#share_button:hover .icon {
+  background: url("../images/gplus_sprite.png") transparent 0 0px no-repeat;
 }

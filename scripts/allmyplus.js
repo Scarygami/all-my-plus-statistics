@@ -1,4 +1,4 @@
-function AllMyPlus(global, base_url, api_key, author, keyword, community) {
+function AllMyPlus(global, base_url, api_key, author, keyword, community, client_id) {
   "use strict";
 
   var
@@ -12,7 +12,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     max_comments, max_comments_post, max_reshares, max_reshares_post, max_plusones, max_plusones_post,
     day_data, day_view, day_chart, weekday_data, weekday_view, weekday_chart, hour_data, hour_view, hour_chart,
     people = [], sort_function, date_sort_function,
-    map, llbounds, chk_locations, dropZone, fileCount = 0, $ = global.$, chk_api_data = false, page_token = "", search_type = 0;
+    map, llbounds, chk_locations, dropZone, fileCount = 0, $ = global.$, chk_api_data = false, page_token = "", search_type = 0, login = false;
 
   Date.prototype.yyyymmddhhmmss = function () {
     var y, m, d, h, min, sec;
@@ -1961,7 +1961,34 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     eventObj.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
   }
 
+  function create_summary() {
+    var text, i, posts, comments = 0, reshares = 0, plusones = 0, min_data, post_time;
+    posts = activities.length;
+    for (i = 0; i < posts; i++) {
+      comments += activities[i].int_comments;
+      reshares += activities[i].int_reshares;
+      plusones += activities[i].int_plusones;
+      post_time = new Date(activities[i].published);
+      if (min_date) {
+        if (post_time.getTime() < min_date.getTime()) {
+          min_date = new Date();
+          min_date.setFullYear(post_time.getFullYear(), post_time.getMonth(), post_time.getDate());
+        }
+      } else {
+        min_date = new Date();
+        min_date.setFullYear(post_time.getFullYear(), post_time.getMonth(), post_time.getDate());
+      }
+    }
+    text = "Since " + min_date.nice_short_date();
+    text += " I've shared " + posts + " public posts";
+    text += " and received " + comments + " comments, " + reshares + " reshares ";
+    text += " and " + plusones + " +1's.";
+    text += " Get your own stats at http://www.allmyplus.com/";
+    
+    return text;
+  }
   function activitiesLoaded(next_token, error) {
+    var options;
     if (next_token && next_token !== "") {
       page_token = next_token;
       $("#load_more").show();
@@ -1987,6 +2014,19 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       $(".contents").show();
       $(".anchor").show();
       $(".stat_calculated").removeClass("stat_calculated");
+    }
+    if (login) {
+      $("#sign_out").show();
+      $("#share").html("<div id=\"share_button\"><span class=\"icon\">&nbsp;</span><span class=\"label\">Share stats</span></div>");
+      options = {
+        contenturl: global.location.origin + global.location.pathname,
+        clientid: client_id,
+        cookiepolicy: 'single_host_origin',
+        prefilltext: create_summary(),
+        calltoactionlabel: 'TRY_IT',
+        calltoactionurl: base_url + "#tryit"
+      };
+      global.gapi.interactivepost.render("share_button", options);
     }
     global.google.maps.event.trigger(map, "resize");
   }
@@ -2063,6 +2103,13 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       menu_click(eventObj.target.id.substring(4));
     });
 
+    if (global.location.hash === "#tryit") {
+      $("#login_version").addClass("login_highlight");
+      $("#login_instructions").show();
+      $("#api_instructions").hide();
+      $("#takeout_instructions").hide();
+      $("#search_instructions").hide();
+    }
     $("#d_charts input").click(update_charts);
     $("#d_posts input").click(update_posts);
 
@@ -2130,7 +2177,6 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
       $("#filter_keyword").val("");
       filter_activities();
     });
-
     chk_api_data = false;
     if ((author && author.id) || (keyword && $.trim(keyword) !== "") || (community && community.id)) {
       chk_api_data = true;
@@ -2405,12 +2451,15 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
     });
 
   global.onSignInCallback = function (authResult) {
-    if (authResult.access_token) {
+    if (!login && authResult.access_token) {
       global.gapi.client.load("plus", "v1", function () {
         global.gapi.client.plus.people.get({"userId": "me"}).execute(function (result) {
           if (result.error) {
             global.console.log("There was an error: " + result.error);
           } else {
+            login = true;
+            $("#login_user").text(result.displayName);
+            $("#login_user").attr("href", result.url);
             if (global.history && global.history.pushState) {
               global.history.pushState({}, "All my + Statistics for " + result.displayName, "u/" + result.id);
             }
@@ -2422,6 +2471,8 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
               $("#load_more").hide();
               $("#stat_types").hide();
               $("#filter_data").hide();
+              $("#sign_out").hide();
+              $("#share").html("");
               load_activities(author.id, page_token, 0, activities.length + 500, activitiesLoaded);
             });
             $("#load_all").click(function () {
@@ -2429,7 +2480,31 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community) {
               $("#load_more").hide();
               $("#stat_types").hide();
               $("#filter_data").hide();
+              $("#sign_out").hide();
+              $("#share").html("");
               load_activities(author.id, page_token, 0, 0, activitiesLoaded);
+            });
+
+            $("#sign_out_button").click(function () {
+              $.ajax({
+                type: "GET",
+                url: "https://accounts.google.com/o/oauth2/revoke?token=" +
+                    global.gapi.auth.getToken().access_token,
+                async: false,
+                contentType: "application/json",
+                dataType: "jsonp",
+                success: function(result) {
+                  $("#load_more").hide();
+                  $("#stat_types").hide();
+                  $("#filter_data").hide();
+                  $("#sign_out").hide();
+                  $("#share").html("");
+                  global.location.href = base_url;
+                },
+                error: function(e) {
+                  global.console.log(e);
+                }
+              });
             });
 
             $(".takeout").addClass("deactivated");
