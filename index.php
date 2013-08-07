@@ -259,6 +259,7 @@
               data-height="tall"
               data-cookiepolicy="single_host_origin">
             </button>
+            <p class="smallc">(By signing in you explicitly agree that cookies will be stored on your local device,<br>to keep you logged in during this session.)</p>
 <?php } ?>
           </div>
           <div class="or">or</div>

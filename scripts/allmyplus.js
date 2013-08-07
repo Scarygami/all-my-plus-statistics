@@ -44,12 +44,38 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
     return y + "-" + (m[1] ? m : "0" + m[0]) + "-" + (d[1] ? d : "0" + d[0]);
   };
 
+  Date.prototype.display_date = function () {
+    var m_names, y, m, d, sup;
+    m_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    y = this.getFullYear().toString();
+    m = this.getMonth();
+    d = this.getDate();
+
+    if (d == 1 || d == 21 || d == 31) {
+      sup = "st";
+    } else if (d == 2 || d == 22) {
+      sup = "nd";
+    } else if (d == 3 || d == 23) {
+      sup = "rd";
+    } else {
+      sup = "th";
+    }
+
+    return m_names[m] + " " + d.toString() + sup + ", " + y;
+  };
+  
   function strip_html(html) {
     var tmp = global.document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
   }
 
+  function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
   function post_length(item) {
     return (item.object.originalContent || item.object.content || "").length;
   }
@@ -245,7 +271,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
   }
 
   function update_activity(i) {
-    var a, j, chk_r, int_type, int_audience, post_time, post_hour, post_day, post_date, att, att_link, item, p, photo;
+    var a, chk_r, int_type, int_audience, post_time, post_hour, post_day, post_date, att, att_link, item, p, photo;
     item = activities[i];
 
     post_time = new Date(item.published);
@@ -505,7 +531,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
   }
 
   function update_charts() {
-    var cols = [], int_col;
+    var cols = [];
     cols.push(0);
     if ($("#chk_posts").is(":checked")) {
       if ($("#chk_total").is(":checked")) { add_cols(cols, 1); }
@@ -786,7 +812,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
   }
 
   function draw_map() {
-    var latlng, myOptions, wp, maps_marker, i, coords;
+    var wp, maps_marker, i, coords;
     for (i = 0; i < activities.length; i++) {
       if (activities[i].object.actor == undefined) {
         if (activities[i].geocode != undefined) {
@@ -1567,7 +1593,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
           global.setTimeout(function () { load_activities(id, next_token, 0, max, cb); }, 100);
         }
       },
-      "error": function (d, msg) {
+      "error": function () {
         if (retry < 5) {
           global.setTimeout(function () { load_activities(id, token, retry + 1, max, cb); }, 200 * (retry + 1));
         } else {
@@ -1578,7 +1604,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
   }
 
   function update_stats(i) {
-    var j, chk_r, int_type, int_audience, post_time, post_hour, post_day, post_date, att, att_link, item;
+    var j, chk_r, int_type, int_audience, post_time, post_hour, post_day, post_date, item;
     item = activities[i];
 
     post_time = new Date(item.published);
@@ -1962,7 +1988,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
   }
 
   function create_summary() {
-    var text, i, posts, comments = 0, reshares = 0, plusones = 0, min_data, post_time;
+    var text, i, posts, comments = 0, reshares = 0, plusones = 0, min_date, post_time;
     posts = activities.length;
     for (i = 0; i < posts; i++) {
       comments += activities[i].int_comments;
@@ -1979,15 +2005,15 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
         min_date.setFullYear(post_time.getFullYear(), post_time.getMonth(), post_time.getDate());
       }
     }
-    text = "Since " + min_date.nice_short_date();
-    text += " I've shared " + posts + " public posts";
-    text += " and received " + comments + " comments, " + reshares + " reshares ";
-    text += " and " + plusones + " +1's.";
-    text += " Get your own stats at http://www.allmyplus.com/";
+    text = "Since " + min_date.display_date();
+    text += " I've shared " + numberWithCommas(posts) + " public posts";
+    text += " and received " + numberWithCommas(comments) + " comments, " + numberWithCommas(reshares) + " reshares ";
+    text += " and " + numberWithCommas(plusones) + " +1's.";
+    text += " Get your own stats by clicking \"Try it\" below and signing in.";
     
     return text;
   }
-  function activitiesLoaded(next_token, error) {
+  function activitiesLoaded(next_token) {
     var options;
     if (next_token && next_token !== "") {
       page_token = next_token;
@@ -2071,7 +2097,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
           global.setTimeout(function () { search_activities(k, next_token, 0, max, cb); }, 100);
         }
       },
-      "error": function (d, msg) {
+      "error": function () {
         if (retry < 5) {
           global.setTimeout(function () { search_activities(k, token, retry + 1, max, cb); }, 200 * (retry + 1));
         } else {
@@ -2494,7 +2520,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
                 async: false,
                 contentType: "application/json",
                 dataType: "jsonp",
-                success: function(result) {
+                success: function() {
                   $("#load_more").hide();
                   $("#stat_types").hide();
                   $("#filter_data").hide();
