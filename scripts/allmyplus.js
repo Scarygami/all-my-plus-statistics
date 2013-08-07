@@ -1182,13 +1182,13 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
         str_line += "," + post_length(item);
         str_line += "," + item.url;
         str_line += ",\"" + make_csv_compliant(item.actor.displayName) + "\"";
-        str_line += "," + item.actor.id;
+        str_line += ",\"" + item.actor.id + "\"";
         if (item.org_author_name) {
           str_line += ",\"" + make_csv_compliant(item.org_author_name) + "\"";
         } else {
           str_line += ",";
         }
-        str_line += "," + item.org_author_id;
+        str_line += ",\"" + item.org_author_id + "\"";
         str_line += ",\"" + make_csv_compliant(html_entities(strip_html(item.annotation || ""))) + "\"";
         str_line += ",\"" + make_csv_compliant(html_entities(strip_html(item.object.content || ""))) + "\"";
         doc += str_line + "\r\n";
@@ -2110,6 +2110,7 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
       $("#takeout_instructions").hide();
       $("#search_instructions").hide();
     }
+    
     $("#d_charts input").click(update_charts);
     $("#d_posts input").click(update_posts);
 
