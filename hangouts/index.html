@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>All my + Statistics for Hangouts</title>
+  <link rel="stylesheet" type="text/css" href="../css/allmyplus.css">
+  <base target="_blank">
+  <script src="../scripts/sorttable.js"></script>
+  <script src="hangouts.js"></script>
+  <script src="https://apis.google.com/js/client:plusone.js?onload=onClientReady"></script>
+</head>
+<body>
+  <div id="header">
+    <div id="header1"></div>
+    <div id="header2">
+      <div id="header2_info">
+        <table style="width: 100%;"><tr>
+          <td style="width: 70px;"><img src="../images/allmy+.png" alt="All my +"></td>
+          <td>
+            <table><tr style="vertical-align: center;">
+              <td><h1 id="title">All my + Statistics for Hangouts</h1></td>
+              <td id="progress"><img src="../images/spinner.gif" alt="spinner"> Preparing data, please wait...</td>
+            </tr></table>
+          </td>
+        </tr></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="menubar">
+    <a class="menue" id="men_start" href="#start" target="_self" style="display: none;">Start</a>
+    <a class="menue" id="men_overview" href="#overview" target="_self" style="display: none;">Overview</a>
+    <a class="menue" id="men_data" href="#data" target="_self" style="display: none;">Data</a>
+  </div>
+
+  <div id="main">
+    <div id="start" class="anchor"></div>
+    <div id="d_start" class="contents">
+      <table style="width: 100%;"><tr>
+        <td style="text-align: center; width: 400px;">
+          <div id="takeout_version">
+            <div id="drop_zone" title="All your data will stay local. Nothing will be uploaded to any server.">Drop files here</div><br><br>
+            <div id="takeout_status"></div>
+          </div>
+        </td>
+        <td id="instructions">
+          <div id="takeout_instructions">
+            <h1>Using Google Takeout Data</h1><br>
+
+            To get started visit the following URL and click on "Create Archive":<br>
+            <a class="highlight" href="https://www.google.com/takeout/#custom:chat">https://www.google.com/takeout/#custom:chat</a><br><br>
+
+            Once your package is ready you will have to download and extract it.
+            Then you can drag the Hangouts.json file from your file browser and drop it into the field on the left.<br><br>
+            All your data will be analysed locally on your computer, nothing will be uploaded. Some public user information
+            about the people you communicate with will be retrieved directly from Google Servers via HTTPS.<br>
+          </div>
+        </td>
+        <td><div id="stat_types" style="display: none;">
+          <h1>What are you interested in?</h1><br>
+          <div class="stat_type" id="stat_overview">
+            <img src="images/stat_overview.png" alt="Overview"><br>
+            Overview
+          </div>
+          <div class="stat_type" id="stat_data">
+            <img src="images/stat_data.png" alt="Data"><br>
+            Data
+          </div>
+        </div>
+        </td>
+      </tr></table>
+    </div>
+    <div id="overview" class="anchor" style="display: none;"><div class="title">Overview</div><button class="recalculate">Refresh data</button></div>
+    <div id="d_overview" class="contents" style="display: none;">
+      <table>
+        <tr><th></th><th>Total</th><th>By Type</th><th>By Status</th></tr>
+        <tr><th>Conversations</th><td class="stats"><table><tr><td id="c_total"></td></tr></table></td><td class="stats" id="c_type"></td><td class="stats" id="c_status"></td></tr>
+        <tr><th>Participants</th><td class="stats"><table><tr><td id="p_total"></td></tr></table></td><td class="stats" id="p_type"></td><td class="stats" id="p_status"></td></tr>
+        <tr><th>Messages</th><td class="stats"><table><tr><td id="m_total"></td></tr></table></td><td class="stats" id="m_type"></td><td class="stats" id="m_status"></td></tr>
+      </table>
+    </div>
+    <div id="data" class="anchor" style="display: none;"><div class="title">Data</div><button class="recalculate">Refresh data</button></div>
+    <div id="d_data" class="contents" style="display: none;">
+      <table id="convo_data" class="sortable">
+        <tr>
+          <th>Name</th>
+          <th>Start</th>
+          <th>Last update</th>
+          <th>Status</th>
+          <th>Type</th>
+          <th class="sorttable_numeric">Participants</th>
+          <th class="sorttable_numeric">Messages</th>
+        </tr>
+      </table>
+    </div><br><br>
+  </div>
+  <div id="footer" class="footer_data">
+    <a href="https://plus.google.com/105696887942257432718?rel=publisher" style="display: none;"></a>
+    <p class="smallr">
+      This site is not affiliated with, sponsored by, or endorsed by <a href="http://www.google.com/">Google Inc</a>.<br>
+      Programming by <a href="https://plus.google.com/112336147904981294875" rel="author">Gerwin Sturm</a>, <a href="http://www.foldedsoft.at/">FoldedSoft e.U.</a><br><br>
+    </p>
+  </div>
+</body>
+</html>
