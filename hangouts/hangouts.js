@@ -41,7 +41,7 @@
 
   function AllMyPlus() {
 
-    var fileCount = 0, dropZone, convoDataTable, progress, conversations = [], people = [];
+    var fileCount = 0, dropZone, convoDataTable, progress, conversations = [], people = [], groupedConversations = {};
 
     function lookupPerson(id) {
       var i;
@@ -59,7 +59,7 @@
       progress.style.display = "block";
       dropZone.style.display = "none";
       doc.getElementById("stat_types").style.display = "none";
-      tmp = doc.getElementsByClassName("recalculate");
+      tmp = doc.querySelectorAll(".recalculate, .combine");
       for (i = 0; i < tmp.length; i++) {
         tmp[i].style.display = "none";
       }
@@ -303,6 +303,13 @@
 
       convoDataTable.innerHTML = "";
       for (i = 0; i < conversations.length; i++) {
+        // store the conversations by the people involved
+        // assumes .people is consistently ordered, so ABC will always be ABC and never BAC
+        if (! (conversations[i].people in groupedConversations)) {
+          groupedConversations[conversations[i].people] = [];
+        }
+        groupedConversations[conversations[i].people].push(conversations[i]);
+
         tr = doc.createElement("tr");
         td = doc.createElement("td");
         td.innerHTML = conversations[i].name;
@@ -363,8 +370,90 @@
       global.location.hash = "#data";
       doc.getElementById("stat_data").className = "stat_type stat_calculated";
       doc.getElementById("data").getElementsByClassName("recalculate")[0].style.display = "none";
+      doc.getElementById("data").getElementsByClassName("combine")[0].style.display = "block";
     }
 
+    // shows the same table data as reportData() but with each group collapsed to one row
+    function combineData() {
+      var i, j, tr, td, tdNames, tdStart, tdUpdated, tdStatus, tmp, person, totalMessages;
+      var br = doc.createElement("br");
+
+      // empty table holding the previous individual data
+      convoDataTable.innerHTML = "";
+      for (var group in groupedConversations) {
+        tr = doc.createElement("tr");
+
+        // calculate contents of the name, start/end date, status, and #messages cells simultaneously
+        tdNames = doc.createElement("td");
+        tdNames.style.whiteSpace = "nowrap";
+        tdStart = doc.createElement("td");
+        tdStart.style.whiteSpace = "nowrap";
+        tdUpdated = doc.createElement("td");
+        tdUpdated.style.whiteSpace = "nowrap";
+        tdStatus = doc.createElement("td");
+        totalMessages = 0;
+        for (i = 0; i < groupedConversations[group].length; i++) {
+          tdNames.innerHTML += groupedConversations[group][i].name;
+          if (!!groupedConversations[group][i].start) {
+            tmp = new Date(groupedConversations[group][i].start / 1000);
+            tdStart.innerHTML += tmp.nice_date();
+          }
+          if (!!groupedConversations[group][i].updated) {
+            tmp = new Date(groupedConversations[group][i].updated / 1000);
+            tdUpdated.innerHTML += tmp.nice_date();
+          }
+          tdStatus.innerHTML += groupedConversations[group][i].status;
+          totalMessages += groupedConversations[group][i].messages;
+
+          // add a break every time except the last time
+          if (i != groupedConversations[group][i].length - 1) {
+            tdNames.appendChild(br);
+            tdStart.appendChild(br);
+            tdUpdated.appendChild(br);
+            tdStatus.appendChild(br);
+          }
+        }
+        tr.appendChild(tdNames);
+        tr.appendChild(tdStart);
+        tr.appendChild(tdUpdated);
+        tr.appendChild(tdStatus);
+
+        // for type and participants can just use the data in the zero-th spot
+        // since it's all duplicate
+        td = doc.createElement("td");
+        td.innerHTML = groupedConversations[group][0].type;
+        tr.appendChild(td);
+        tmp = groupedConversations[group][0].people.length + " participants<br>";
+        for (j = 0; j < groupedConversations[group][0].people.length; j++) {
+          person = lookupPerson(groupedConversations[group][0].people[j]);
+          if (!!person) {
+            tmp += " <a href=\"https://plus.google.com/" + person.id + "\">";
+            tmp += "<img alt=\"" + (person.displayName || "unknown") + "\" ";
+            tmp += " title=\"" + (person.displayName || "unknown") + "\" ";
+            tmp += " src=\"";
+            if (!!person.image) {
+              tmp += person.image;
+            } else {
+              tmp += "../images/noimage.png";
+            }
+            tmp += "\"></a>";
+          }
+        }
+        td = doc.createElement("td");
+        td.innerHTML = tmp;
+        td.setAttribute("sorttable_customkey", groupedConversations[group][0].people.length);
+        tr.appendChild(td);
+
+        td = doc.createElement("td");
+        td.innerHTML = totalMessages;
+        tr.appendChild(td);
+
+        convoDataTable.appendChild(tr);
+      }
+
+      global.location.hash = "#data";
+      doc.getElementById("data").getElementsByClassName("combine")[0].style.display = "none";      
+    }
 
     function initialize() {
       dropZone = doc.getElementById("drop_zone");
@@ -384,6 +473,7 @@
       doc.getElementById("overview").getElementsByClassName("recalculate")[0].onclick = reportOverview;
       doc.getElementById("stat_data").onclick = reportData;
       doc.getElementById("data").getElementsByClassName("recalculate")[0].onclick = reportData;
+      doc.getElementById("data").getElementsByClassName("combine")[0].onclick = combineData;
     }
 
     initialize();
