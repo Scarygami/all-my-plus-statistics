@@ -358,8 +358,13 @@ function AllMyPlus(global, base_url, api_key, author, keyword, community, client
     }
 
     item.chk_location = false;
-    if (item.geocode != undefined) {
+    if (!!item.geocode) {
       item.chk_location = true;
+    } else {
+      if (!!item.location && !!item.location.position && !!item.location.position.latitude && !!item.location.position.longitude) {
+        item.geocode = item.location.position.latitude.toString() + " " + item.location.position.longitude.toString();
+        item.chk_location = true;
+      }
     }
     item.chk_videos = false;
     item.chk_photos = false;
