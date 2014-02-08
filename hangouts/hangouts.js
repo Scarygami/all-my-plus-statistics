@@ -406,7 +406,7 @@
           totalMessages += groupedConversations[group][i].messages;
 
           // add a break every time except the last time
-          if (i != groupedConversations[group][i].length - 1) {
+          if (i != groupedConversations[group].length - 1) {
             tdNames.appendChild(br);
             tdStart.appendChild(br);
             tdUpdated.appendChild(br);
