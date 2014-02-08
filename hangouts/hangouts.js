@@ -461,7 +461,7 @@
       }
 
       global.location.hash = "#data";
-      doc.getElementById("data").getElementsByClassName("combine")[0].style.display = "none";      
+      doc.getElementById("data").getElementsByClassName("combine")[0].style.display = "none";
     }
 
     function initialize() {

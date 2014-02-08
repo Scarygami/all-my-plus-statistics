@@ -570,10 +570,29 @@ table.person a {
   background: url("../images/gplus_sprite.png") transparent 0 0px no-repeat;
 }
 
+.combine {
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  font-weight: bold;
+  padding: 2px;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid #CCCCCC;
+  -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+  text-align: center;
+}
+
+.combine:hover {
+  border: 2px solid black;
+}
+
 .combined_cell {
   white-space: nowrap;
 }
 .combined_cell ul{
   list-style-type: none;
-  -webkit-padding-start: 0px;
+  -webkit-padding-start: 0;
+  -moz-padding-start: 0;
 }
