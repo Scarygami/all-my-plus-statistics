@@ -569,3 +569,11 @@ table.person a {
 #share_button:hover .icon {
   background: url("../images/gplus_sprite.png") transparent 0 0px no-repeat;
 }
+
+.combined_cell {
+  white-space: nowrap;
+}
+.combined_cell ul{
+  list-style-type: none;
+  -webkit-padding-start: 0px;
+}

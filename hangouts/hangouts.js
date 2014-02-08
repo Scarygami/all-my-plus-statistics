@@ -375,8 +375,8 @@
 
     // shows the same table data as reportData() but with each group collapsed to one row
     function combineData() {
-      var i, j, tr, td, tdNames, tdStart, tdUpdated, tdStatus, tmp, person, totalMessages;
-      var br = doc.createElement("br");
+      var i, j, tr, td, li, tmp, person, totalMessages;
+      var tdNames, ulNames, tdStart, ulStart, tdUpdated, ulUpdated, tdStatus, ulStatus;
 
       // empty table holding the previous individual data
       convoDataTable.innerHTML = "";
@@ -385,37 +385,46 @@
 
         // calculate contents of the name, start/end date, status, and #messages cells simultaneously
         tdNames = doc.createElement("td");
-        tdNames.style.whiteSpace = "nowrap";
+        tdNames.className = "combined_cell";
+        ulNames = doc.createElement("ul");
         tdStart = doc.createElement("td");
-        tdStart.style.whiteSpace = "nowrap";
+        tdStart.className = "combined_cell";
+        ulStart = doc.createElement("ul");
         tdUpdated = doc.createElement("td");
-        tdUpdated.style.whiteSpace = "nowrap";
+        tdUpdated.className = "combined_cell";
+        ulUpdated = doc.createElement("ul");
         tdStatus = doc.createElement("td");
+        tdStatus.className = "combined_cell";
+        ulStatus = doc.createElement("ul");
         totalMessages = 0;
         for (i = 0; i < groupedConversations[group].length; i++) {
-          tdNames.innerHTML += groupedConversations[group][i].name;
+          li = doc.createElement("li");
+          li.innerHTML = groupedConversations[group][i].name;
+          ulNames.appendChild(li);
           if (!!groupedConversations[group][i].start) {
             tmp = new Date(groupedConversations[group][i].start / 1000);
-            tdStart.innerHTML += tmp.nice_date();
+            li = doc.createElement("li");
+            li.innerHTML = tmp.nice_date();
+            ulStart.appendChild(li);
           }
           if (!!groupedConversations[group][i].updated) {
             tmp = new Date(groupedConversations[group][i].updated / 1000);
-            tdUpdated.innerHTML += tmp.nice_date();
+            li = doc.createElement("li");
+            li.innerHTML = tmp.nice_date();
+            ulUpdated.appendChild(li);
           }
-          tdStatus.innerHTML += groupedConversations[group][i].status;
+          li = doc.createElement("li");
+          li.innerHTML = groupedConversations[group][i].status;
+          ulStatus.appendChild(li);
           totalMessages += groupedConversations[group][i].messages;
-
-          // add a break every time except the last time
-          if (i != groupedConversations[group].length - 1) {
-            tdNames.appendChild(br);
-            tdStart.appendChild(br);
-            tdUpdated.appendChild(br);
-            tdStatus.appendChild(br);
-          }
         }
+        tdNames.appendChild(ulNames);
         tr.appendChild(tdNames);
+        tdStart.appendChild(ulStart);
         tr.appendChild(tdStart);
+        tdUpdated.appendChild(ulUpdated);
         tr.appendChild(tdUpdated);
+        tdStatus.appendChild(ulStatus);
         tr.appendChild(tdStatus);
 
         // for type and participants can just use the data in the zero-th spot
