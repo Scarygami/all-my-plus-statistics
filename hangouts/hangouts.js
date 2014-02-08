@@ -304,11 +304,11 @@
       convoDataTable.innerHTML = "";
       for (i = 0; i < conversations.length; i++) {
         // store the conversations by the people involved
-        // assumes .people is consistently ordered, so ABC will always be ABC and never BAC
-        if (! (conversations[i].people in groupedConversations)) {
-          groupedConversations[conversations[i].people] = [];
+        var sortedPeople = conversations[i].people.sort();
+        if (! (sortedPeople in groupedConversations)) {
+          groupedConversations[sortedPeople] = [];
         }
-        groupedConversations[conversations[i].people].push(conversations[i]);
+        groupedConversations[sortedPeople].push(conversations[i]);
 
         tr = doc.createElement("tr");
         td = doc.createElement("td");
