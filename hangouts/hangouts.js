@@ -137,7 +137,7 @@
     }
 
     function handleConvo(data) {
-      var i, j, conversation, person;
+      var i, j, conversation, person, words;
 
       data = data.conversation_state;
       for (i = 0; i < conversations.length; i++) {
@@ -180,6 +180,7 @@
       }
 
       conversation.messages = 0;
+      conversation.words = 0;
       for (i = 0; i < data.event.length; i++) {
         if (!conversation.start || conversation.start > data.event[i].timestamp) {
           conversation.start = data.event[i].timestamp;
@@ -189,6 +190,17 @@
         }
         if (!!data.event[i].chat_message) {
           conversation.messages++;
+          // can be an attachment instead of a segment:
+          // chat_message.message_content.attachment[x].embed_item.type === "PLUS_PHOTO"
+          if (!!data.event[i].chat_message.message_content.segment) {
+            for (j = 0; j < data.event[i].chat_message.message_content.segment.length; j++) {
+              // other types include: LINK, LINE_BREAK
+              if (data.event[i].chat_message.message_content.segment[j].type === "TEXT") {
+                words = data.event[i].chat_message.message_content.segment[j].text.split(' ').length;
+                conversation.words += words;
+              }
+            }
+          }
         }
       }
 
@@ -364,6 +376,10 @@
         td.innerHTML = conversations[i].messages;
         tr.appendChild(td);
 
+        td = doc.createElement("td");
+        td.innerHTML = conversations[i].words;
+        tr.appendChild(td);
+
         convoDataTable.appendChild(tr);
       }
 
@@ -375,7 +391,7 @@
 
     // shows the same table data as reportData() but with each group collapsed to one row
     function combineData() {
-      var i, j, tr, td, li, tmp, person, totalMessages;
+      var i, j, tr, td, li, tmp, person, totalMessages, totalWords;
       var tdNames, ulNames, tdStart, ulStart, tdUpdated, ulUpdated, tdStatus, ulStatus;
 
       // empty table holding the previous individual data
@@ -397,6 +413,7 @@
         tdStatus.className = "combined_cell";
         ulStatus = doc.createElement("ul");
         totalMessages = 0;
+        totalWords = 0;
         for (i = 0; i < groupedConversations[group].length; i++) {
           li = doc.createElement("li");
           li.innerHTML = groupedConversations[group][i].name;
@@ -417,6 +434,7 @@
           li.innerHTML = groupedConversations[group][i].status;
           ulStatus.appendChild(li);
           totalMessages += groupedConversations[group][i].messages;
+          totalWords += groupedConversations[group][i].words;
         }
         tdNames.appendChild(ulNames);
         tr.appendChild(tdNames);
@@ -455,6 +473,10 @@
 
         td = doc.createElement("td");
         td.innerHTML = totalMessages;
+        tr.appendChild(td);
+
+        td = doc.createElement("td");
+        td.innerHTML = totalWords;
         tr.appendChild(td);
 
         convoDataTable.appendChild(tr);
