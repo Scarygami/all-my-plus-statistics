@@ -196,8 +196,10 @@
             for (j = 0; j < data.event[i].chat_message.message_content.segment.length; j++) {
               // other types include: LINK, LINE_BREAK
               if (data.event[i].chat_message.message_content.segment[j].type === "TEXT") {
-                words = data.event[i].chat_message.message_content.segment[j].text.split(' ').length;
-                conversation.words += words;
+                if (!!data.event[i].chat_message.message_content.segment[j].text) {
+                  words = data.event[i].chat_message.message_content.segment[j].text.split(' ').length;
+                  conversation.words += words;
+                }
               }
             }
           }
